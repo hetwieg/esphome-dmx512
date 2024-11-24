@@ -4,6 +4,8 @@
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/output/float_output.h"
 
+#include "esphome/components/e131/e131.h"
+
 static const uint16_t UPDATE_INTERVAL_MS = 500;
 static const uint16_t DMX_MAX_CHANNEL = 512;
 static const uint16_t DMX_MSG_SIZE = DMX_MAX_CHANNEL + 1;
@@ -43,6 +45,11 @@ class DMX512 : public Component {
 
   void set_break_len(int len) { break_len_ = len; }
 
+  void set_e131_universe(e131::E131Component* e131, uint16_t universe) { 
+    this->e131_ = e131;
+    this->universe_ = universe;
+  }
+
   void set_update_interval(int intvl) { update_interval_ = intvl; }
 
   virtual void set_uart_num(int num) = 0;
@@ -62,6 +69,8 @@ class DMX512 : public Component {
   int update_interval_{UPDATE_INTERVAL_MS};
   int mab_len_{DMX_MAB_LEN};
   int break_len_{DMX_BREAK_LEN};
+  e131::E131Component* e131_{nullptr};
+  uint16_t universe_{0};
   uint16_t max_chan_{0};
   bool update_{true};
   bool periodic_update_{true};

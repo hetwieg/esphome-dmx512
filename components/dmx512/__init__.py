@@ -22,6 +22,9 @@ CONF_FORCE_FULL_FRAMES = 'force_full_frames'
 CONF_CUSTOM_BREAK_LEN = 'custom_break_len'
 CONF_CUSTOM_MAB_LEN = 'custom_mab_len'
 
+CONF_E131_UNIVERSE = 'e131_universe'
+CONF_E131_ID = "e131_id"
+
 UART_MAX = 2
 
 if CORE.is_esp32:
@@ -48,6 +51,7 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Optional(CONF_FORCE_FULL_FRAMES, default=False): cv.boolean,
     cv.Optional(CONF_CUSTOM_MAB_LEN, default=12): cv.int_range(min=12, max=1000),
     cv.Optional(CONF_CUSTOM_BREAK_LEN, default=92): cv.int_range(min=92, max=1000),
+    cv.Optional(CONF_E131_UNIVERSE, default=0): cv.int_range(min=0, max=512),
     cv.Optional(CONF_UPDATE_INTERVAL, default=500): cv.int_range(),
 }).extend(cv.COMPONENT_SCHEMA).extend(uart.UART_DEVICE_SCHEMA)
 
@@ -71,3 +75,7 @@ async def to_code(config):
     cg.add(var.set_mab_len(config[CONF_CUSTOM_MAB_LEN]))
     cg.add(var.set_break_len(config[CONF_CUSTOM_BREAK_LEN]))
     cg.add(var.set_update_interval(config[CONF_UPDATE_INTERVAL]))
+
+    if CONF_E131_UNIVERSE in config and config[CONF_E131_UNIVERSE] > 0:
+        # TODO: Proper link to e131
+        cg.add(cg.RawStatement(f'{config[CONF_ID]}->set_e131_universe(e131_e131component_id, {config[CONF_E131_UNIVERSE]});'))
