@@ -44,7 +44,7 @@ async def to_code(config):
     "E1.31",
     {
         cv.GenerateID(CONF_E131_ID): cv.use_id(E131Component),
-        cv.Required(CONF_UNIVERSE): cv.int_range(min=1, max=512),
+        cv.Required(CONF_UNIVERSE): cv.int_range(min=1, max=63999),
         cv.Optional(CONF_CHANNELS, default="RGB"): cv.one_of(*CHANNELS, upper=True),
     },
 )
