@@ -38,6 +38,7 @@ class E131Component : public esphome::Component {
 
   void set_method(E131ListenMethod listen_method) { this->listen_method_ = listen_method; }
 
+  // HACK
   E131Packet universe_one_packet;
 
  protected:

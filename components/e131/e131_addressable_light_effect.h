@@ -9,7 +9,7 @@ namespace e131 {
 class E131Component;
 struct E131Packet;
 
-enum E131LightChannels { E131_MONO = 1, E131_RGB = 3, E131_RGBW = 4 };
+enum E131LightChannels { E131_MONO = 1, E131_RGB = 3, E131_RGBW = 4, E131_UNIVERSE = 512 };
 
 class E131AddressableLightEffect : public light::AddressableLightEffect {
  public:
@@ -24,6 +24,7 @@ class E131AddressableLightEffect : public light::AddressableLightEffect {
   int get_first_universe() const;
   int get_last_universe() const;
   int get_universe_count() const;
+  int get_first_channel() const;
 
   void set_first_universe(int universe) { this->first_universe_ = universe; }
   void set_first_channel(int channel) { this->first_channel_ = channel; }

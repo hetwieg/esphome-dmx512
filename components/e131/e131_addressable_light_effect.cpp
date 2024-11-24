@@ -88,6 +88,13 @@ bool E131AddressableLightEffect::process_(int universe, const E131Packet &packet
         output.set(Color(input_data[0], input_data[1], input_data[2], input_data[3]));
       }
       break;
+
+    case E131_UNIVERSE:
+      for (; output_offset < output_end; output_offset++, input_data += 512) {
+        auto output = (*it)[output_offset];
+        // TODO: output.set(???);
+      }
+      break;
   }
 
   it->schedule_show();

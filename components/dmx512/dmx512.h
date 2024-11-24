@@ -45,7 +45,9 @@ class DMX512 : public Component {
 
   void set_break_len(int len) { break_len_ = len; }
 
-  void set_e131_universe(e131::E131Component* e131, uint16_t universe) { 
+  void set_e131(e131::E131Component *e131) { this->e131_ = e131; }
+
+  void set_e131_universe(e131::E131Component *e131, uint16_t universe) { 
     this->e131_ = e131;
     this->universe_ = universe;
   }
@@ -69,7 +71,7 @@ class DMX512 : public Component {
   int update_interval_{UPDATE_INTERVAL_MS};
   int mab_len_{DMX_MAB_LEN};
   int break_len_{DMX_BREAK_LEN};
-  e131::E131Component* e131_{nullptr};
+  e131::E131Component *e131_{nullptr};
   uint16_t universe_{0};
   uint16_t max_chan_{0};
   bool update_{true};

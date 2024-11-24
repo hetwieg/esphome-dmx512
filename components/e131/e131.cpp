@@ -50,6 +50,9 @@ void E131Component::setup() {
   }
 
   join_igmp_groups_();
+
+  // Hack to get universe 1
+  join_(1);
 }
 
 void E131Component::loop() {
@@ -111,7 +114,7 @@ bool E131Component::process_(int universe, const E131Packet &packet) {
   ESP_LOGV(TAG, "Received E1.31 packet for %d universe, with %d bytes", universe, packet.count);
 
   if (universe == 1) {
-    this->universe_one_packet = packet;
+    std::memcpy((void *)&this->universe_one_packet, (const void*)&packet, E131_MAX_PROPERTY_VALUES_COUNT + 2);
   }
 
   for (auto *light_effect : light_effects_) {

@@ -19,17 +19,25 @@ void DMX512::loop() {
     }
   }
   if(update) {
-    if(this->universe_ == 1) {
-      // TODO: Move to E131 update so it will only update the buffer when set by E131
-      std::memcpy(this->device_values_, this->e131_->universe_one_packet.values, DMX_MAX_CHANNEL);
-    }
+    if(this->e131_ != nullptr) {
+      this->uart_->flush();
+      this->send_break();
+      this->uart_->write_array(this->e131_->universe_one_packet.values, DMX_MAX_CHANNEL);
+      this->update_ = false;
+      this->last_update_ = millis();
 
-    this->uart_->flush();
-    this->send_break();
-    this->device_values_[0] = 0;
-    this->uart_->write_array(this->device_values_, this->max_chan_ + 1);
-    this->update_ = false;
-    this->last_update_ = millis();
+      // std::memcpy((void *)&this->device_values_, (const void *)&, DMX_MAX_CHANNEL);
+      // ESP_LOGD(TAG, "Bus 1 value %d", this->e131_->universe_one_packet.values[1]);
+      // ESP_LOGD(TAG, "Bus 1 value %d", this->device_values_[1]);
+    }
+    else {
+      this->uart_->flush();
+      this->send_break();
+      this->device_values_[0] = 0;
+      this->uart_->write_array(this->device_values_, this->max_chan_ + 1);
+      this->update_ = false;
+      this->last_update_ = millis();
+    }
   }
 }
 
