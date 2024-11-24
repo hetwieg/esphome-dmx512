@@ -26,6 +26,7 @@ class E131AddressableLightEffect : public light::AddressableLightEffect {
   int get_universe_count() const;
 
   void set_first_universe(int universe) { this->first_universe_ = universe; }
+  void set_first_channel(int channel) { this->first_channel_ = channel; }
   void set_channels(E131LightChannels channels) { this->channels_ = channels; }
   void set_e131(E131Component *e131) { this->e131_ = e131; }
 
@@ -34,6 +35,7 @@ class E131AddressableLightEffect : public light::AddressableLightEffect {
 
   int first_universe_{0};
   int last_universe_{0};
+  int first_channel_{0};
   E131LightChannels channels_{E131_RGB};
   E131Component *e131_{nullptr};
 

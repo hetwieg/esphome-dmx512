@@ -19,9 +19,12 @@ int E131AddressableLightEffect::get_first_universe() const { return first_univer
 
 int E131AddressableLightEffect::get_last_universe() const { return first_universe_ + get_universe_count() - 1; }
 
+int E131AddressableLightEffect::get_first_channel() const { return first_channel_; }
+
 int E131AddressableLightEffect::get_universe_count() const {
   // Round up to lights_per_universe
   auto lights = get_lights_per_universe();
+  // TODO: Find free places insid universe with first 
   return (get_addressable_()->size() + lights - 1) / lights;
 }
 
@@ -56,6 +59,8 @@ bool E131AddressableLightEffect::process_(int universe, const E131Packet &packet
   // limit amount of lights per universe and received
   int output_end =
       std::min(it->size(), std::min(output_offset + get_lights_per_universe(), output_offset + packet.count - 1));
+
+  // TODO: Find free places insid universe with first
   auto *input_data = packet.values + 1;
 
   ESP_LOGV(TAG, "Applying data for '%s' on %d universe, for %" PRId32 "-%d.", get_name().c_str(), universe,
