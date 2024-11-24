@@ -19,6 +19,11 @@ void DMX512::loop() {
     }
   }
   if(update) {
+    if(this->universe_ == 1) {
+      // TODO: Move to E131 update so it will only update the buffer when set by E131
+      std::memcpy(this->device_values_, this->e131_->universe_one_packet.values, DMX_MAX_CHANNEL);
+    }
+
     this->uart_->flush();
     this->send_break();
     this->device_values_[0] = 0;

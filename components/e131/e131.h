@@ -38,6 +38,8 @@ class E131Component : public esphome::Component {
 
   void set_method(E131ListenMethod listen_method) { this->listen_method_ = listen_method; }
 
+  E131Packet universe_one_packet;
+
  protected:
   bool packet_(const std::vector<uint8_t> &data, int &universe, E131Packet &packet);
   bool process_(int universe, const E131Packet &packet);
